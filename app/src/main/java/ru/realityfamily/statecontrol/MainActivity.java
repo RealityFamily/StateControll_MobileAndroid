@@ -1,80 +1,48 @@
 package ru.realityfamily.statecontrol;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-import okhttp3.WebSocket;
-import okhttp3.WebSocketListener;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button start;
-    private TextView output;
-    private OkHttpClient client;
+    private RecyclerView buttonContainer;
+    private MyAdapter adapter;
+    private SwipeRefreshLayout srl;
 
-    public final class EchoWebSocketListener extends WebSocketListener {
-
-        private static final int NORMAL_CLOSURE_STATUS = 1000;
-
-        @Override
-        public void onOpen(WebSocket webSocket, Response response) {
-            webSocket.send("Hello, it's RealityFamily!");
-            webSocket.send("What's up?");
-            webSocket.close(NORMAL_CLOSURE_STATUS, "Goodby !");
-        }
-
-        @Override
-        public void onMessage(WebSocket webSocket, String text) {
-            output("Receiving: " + text);
-        }
-
-        @Override
-        public void onClosing(WebSocket webSocket, int code, String reason) {
-            webSocket.close(NORMAL_CLOSURE_STATUS, null);
-            output("Closing: " + code + " / " + reason);
-        }
-
-        @Override
-        public void onFailure(WebSocket webSocket, Throwable t, Response response) {
-            output("Error: " + t.getMessage());
-        }
-    }
+    public String Device;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        start = (Button) findViewById(R.id.start);
-        output = (TextView) findViewById(R.id.output);
-        client = new OkHttpClient();
-        start.setOnClickListener(new View.OnClickListener() {
+        buttonContainer = (RecyclerView) findViewById(R.id.ButtonContainer);
+        buttonContainer.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new MyAdapter();
+        buttonContainer.setAdapter(adapter);
+
+        srl = findViewById(R.id.SwipeRefresh);
+        srl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onClick(View view) {
-                start();
+            public void onRefresh() {
+                new TaskModel().RunAdapter(MainActivity.this, adapter, new ArrayList<String>(), "None");
+                srl.setRefreshing(false);
             }
         });
-    }
 
-    private void start() {
-        Request request = new Request.Builder().url("ws://192.168.1.34:8080/GameControl").build();
-        EchoWebSocketListener listener = new EchoWebSocketListener();
-        WebSocket ws = client.newWebSocket(request, listener);
-        client.dispatcher().executorService().shutdown();
-    }
-
-    public void output(final String txt) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                output.setText(output.getText().toString() + "\n\n" + txt);
-            }
-        });
+        new TaskModel().RunAdapter(this, adapter, new ArrayList<String>(), "None");
     }
 }
