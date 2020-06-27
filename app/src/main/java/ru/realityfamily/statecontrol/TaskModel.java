@@ -31,33 +31,41 @@ public class TaskModel {
 
     public void RunAdapter(final Context context, final MyAdapter adapter, List<String> Dataset, final String Status) {
 
+        // Setting a custom method depending on the data received from the server
         View.OnClickListener mListener = null;
 
+        //Getting information of running games from server
         if (Status.equals("None")) {
             RequestQueue queue = Volley.newRequestQueue(context);
             String URL = context.getResources().getString(R.string.BaseUrl);
             StringRequest request = new StringRequest(Request.Method.GET, URL + "api/control/games", new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
+                    // Getting information from server
                     try {
                         JSONObject json = new JSONObject(response);
+                        // Checking that response has correct fields
                         if (json.has("Data") && json.has("Status")) {
                             List<String> tempList = new ArrayList<>();
                             JSONArray tempArray = json.getJSONArray("Data");
                             for (int i = 0; i < tempArray.length(); i++) {
                                 tempList.add(tempArray.getString(i));
                             }
+                            // Sending received data to RecyclerView
                             new TaskModel().RunAdapter(context, adapter, tempList, json.getString("Status"));
                         } else {
+                            // Error, when response don't have enough information
                             Toast.makeText(context, "No content in response.", Toast.LENGTH_LONG).show();
                         }
                     } catch (JSONException e) {
+                        // Error in parsin JSON response
                         Toast.makeText(context, "JSONException: " + e.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 }
                 }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    // Error, when something went wrong in request
                     Toast.makeText(context, "Volley ERROR", Toast.LENGTH_LONG).show();
                 }
             });
@@ -75,25 +83,31 @@ public class TaskModel {
                             new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
+                                    // Getting information from server
                                     try {
                                         JSONObject json = new JSONObject(response);
+                                        // Checking that response has correct fields
                                         if (json.has("Data") && json.has("Status")) {
                                             List<String> tempList = new ArrayList<>();
                                             JSONArray tempArray = json.getJSONArray("Data");
                                             for (int i = 0; i < tempArray.length(); i++) {
                                                 tempList.add(tempArray.getString(i));
                                             }
+                                            // Sending received data to RecyclerView
                                             new TaskModel().RunAdapter(context, adapter, tempList, json.getString("Status"));
                                         } else {
+                                            // Error, when response don't have enough information
                                             Toast.makeText(context, "No content in response.", Toast.LENGTH_LONG).show();
                                         }
                                     } catch (JSONException e) {
+                                        // Error in parsin JSON response
                                         Toast.makeText(context, "JSONException: " + e.getMessage(), Toast.LENGTH_LONG).show();
                                     }
                                 }
                             }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
+                            // Error, when something went wrong in request
                             Toast.makeText(context, "Volley ERROR: " + new String(error.networkResponse.data), Toast.LENGTH_LONG).show();
                         }
                     });
@@ -112,25 +126,31 @@ public class TaskModel {
                             new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
+                                    // Getting information from server
                                     try {
                                         JSONObject json = new JSONObject(response);
+                                        // Checking that response has correct fields
                                         if (json.has("Data") && json.has("Status")) {
                                             List<String> tempList = new ArrayList<>();
                                             JSONArray tempArray = json.getJSONArray("Data");
                                             for (int i = 0; i < tempArray.length(); i++) {
                                                 tempList.add(tempArray.getString(i));
                                             }
+                                            // Sending received data to RecyclerView
                                             new TaskModel().RunAdapter(context, adapter, tempList, json.getString("Status"));
                                         } else {
+                                            // Error, when response don't have enough information
                                             Toast.makeText(context, "No content in response.", Toast.LENGTH_LONG).show();
                                         }
                                     } catch (JSONException e) {
+                                        // Error in parsin JSON response
                                         Toast.makeText(context, "JSONException: " + e.getMessage(), Toast.LENGTH_LONG).show();
                                     }
                                 }
                             }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
+                            // Error, when something went wrong in request
                             Toast.makeText(context, "Volley ERROR: " + new String(error.networkResponse.data), Toast.LENGTH_LONG).show();
                         }
                     });
@@ -145,6 +165,7 @@ public class TaskModel {
                     RequestQueue queue = Volley.newRequestQueue(context);
                     String URL = context.getResources().getString(R.string.BaseUrl);
 
+                    // Packing choose information to JSON body
                     JSONObject json = new JSONObject();
                     try {
                         json.put("DeviceId", Device);
@@ -154,12 +175,14 @@ public class TaskModel {
                         e.printStackTrace();
                     }
 
+                    // Creating request
                     JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST,
                             URL + "api/control/state",
                             json,
                             new Response.Listener<JSONObject>() {
                                 @Override
                                 public void onResponse(JSONObject response) {
+                                    // Getting information from server
                                     Toast.makeText(context, "Volley ERROR: " + response, Toast.LENGTH_LONG).show();
                                 }
                             },
@@ -172,6 +195,7 @@ public class TaskModel {
             return;
         }
 
+        // Putting received information to RecyclerView
         adapter.setItems(Dataset, mListener);
     }
 }

@@ -29,11 +29,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // getting RecyclerView from window
         buttonContainer = (RecyclerView) findViewById(R.id.ButtonContainer);
+        //configuration RecyclerView
         buttonContainer.setLayoutManager(new LinearLayoutManager(this));
         adapter = new MyAdapter();
         buttonContainer.setAdapter(adapter);
 
+        // getting SwipeRefresh from window
         srl = findViewById(R.id.SwipeRefresh);
         srl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -43,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Run method of getting info from server and placing it to RecyclerView
         new TaskModel().RunAdapter(this, adapter, new ArrayList<String>(), "None");
     }
 }

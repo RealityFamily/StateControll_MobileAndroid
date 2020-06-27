@@ -20,10 +20,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         private Button btn;
         public MyViewHolder(View v) {
             super(v);
+            // Finding button on layout
             btn = (Button) v.findViewById(R.id.Content);
         }
 
         public void bind(String text, View.OnClickListener listener) {
+            // Setting received title and ClickListener to View
             btn.setText(text);
             btn.setOnClickListener(listener);
         }
@@ -35,8 +37,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     }
 
     public void setItems(List<String> Dataset, View.OnClickListener Listener) {
+        // Setting to adapter array of titles and ClickListener for buttons
         mDataset = Dataset;
         mListener = Listener;
+        // Reload RecyclerView
         notifyDataSetChanged();
     }
 
