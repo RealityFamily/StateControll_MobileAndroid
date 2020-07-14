@@ -2,6 +2,8 @@ package ru.realityfamily.statecontrol;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -19,35 +21,9 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private RecyclerView buttonContainer;
-    private MyAdapter adapter;
-    private SwipeRefreshLayout srl;
-
-    public String Device;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        // getting RecyclerView from window
-        buttonContainer = (RecyclerView) findViewById(R.id.ButtonContainer);
-        //configuration RecyclerView
-        buttonContainer.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new MyAdapter();
-        buttonContainer.setAdapter(adapter);
-
-        // getting SwipeRefresh from window
-        srl = findViewById(R.id.SwipeRefresh);
-        srl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                new TaskModel().RunAdapter(MainActivity.this, adapter, new ArrayList<String>(), "None");
-                srl.setRefreshing(false);
-            }
-        });
-
-        // Run method of getting info from server and placing it to RecyclerView
-        new TaskModel().RunAdapter(this, adapter, new ArrayList<String>(), "None");
     }
 }

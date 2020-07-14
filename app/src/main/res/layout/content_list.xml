@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundColor"
+    android:orientation="vertical"
+    tools:context="ru.realityfamily.statecontrol.MainActivity">
+
+    <TextView
+        android:id="@+id/Device"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/inner_margin"
+        android:layout_marginTop="@dimen/inner_margin"
+        android:layout_marginRight="@dimen/inner_margin"
+        android:layout_marginBottom="@dimen/inner_margin"
+        android:text="Устройство: "
+        android:textColor="@color/textColor"
+        android:textColorHighlight="@color/textColor"
+        android:textColorHint="@color/textColor"
+        android:textColorLink="@color/textColor"
+        android:textSize="@dimen/Info_TextSize" />
+
+    <TextView
+        android:id="@+id/App"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/inner_margin"
+        android:layout_marginRight="@dimen/inner_margin"
+        android:layout_marginBottom="@dimen/inner_margin"
+        android:text="Приложение: "
+        android:textColor="@color/textColor"
+        android:textColorHighlight="@color/textColor"
+        android:textColorHint="@color/textColor"
+        android:textColorLink="@color/textColor"
+        android:textSize="@dimen/Info_TextSize" />
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/SwipeRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/ButtonContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</LinearLayout>

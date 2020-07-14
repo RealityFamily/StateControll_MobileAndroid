@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">StateControl</string>
     <string name="BaseUrl">http://192.168.1.67:8080/</string>
+    <string name="Launcher">Работа через лаунчер</string>
+    <string name="Close">Закрыть приложение</string>
+    <string name="App">Работа через запущенное приложение</string>
 </resources>

@@ -8,8 +8,17 @@
         android:id="@+id/Content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        tools:text="Title"
-        android:padding="15dp"
-        android:textSize="24dp"/>
+        android:layout_marginLeft="@dimen/out_margin"
+        android:layout_marginTop="@dimen/inner_margin"
+        android:layout_marginRight="@dimen/out_margin"
+        android:layout_marginBottom="@dimen/inner_margin"
+        android:background="@drawable/buttons"
+        android:paddingTop="@dimen/inner_margin"
+        android:paddingBottom="@dimen/inner_margin"
+        android:textColor="@color/textColor"
+        android:textColorHighlight="@color/textColor"
+        android:textColorHint="@color/textColor"
+        android:textColorLink="@color/textColor"
+        android:textSize="@dimen/Type_TextSize"
+        tools:text="Title" />
 </RelativeLayout>
